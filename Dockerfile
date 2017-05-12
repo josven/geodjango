@@ -20,7 +20,7 @@ RUN apt-get update \
     && apt-get remove -y curl \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
-    && service redis-server start
+
 
 
 ENV PYTHONIOENCODING=utf-8
