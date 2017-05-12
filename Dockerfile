@@ -4,32 +4,24 @@ MAINTAINER Janusz Skonieczny @wooyek
 LABEL version="0.9.7"
 
 
-# Install tooling for test debuging and libraries needed by geodjango.
-RUN apt-get update && apt-get -y upgrade && \
-    && apt-get install -y software-properties-common curl \
+RUN apt-get update \
+    && apt-get -y upgrade \
+    && apt-get -y install software-properties-common \
+    && add-apt-repository ppa:git-core/ppa \
     && add-apt-repository ppa:jonathonf/python-3.6 \
-    && apt-get remove -y software-properties-common \
-    && apt autoremove -y \
-    && apt-get update \
-    && apt-get install -y python3.6 \
+    && add-apt-repository ppa:git-core/ppa \
+    && apt-get redis-server software-properties-common curl git unzip nano wget sudo build-essential python python-dev python-pip python-virtualenv spatialite-bin libsqlite3-mod-spatialite postgresql-client-common libpq-dev postgresql postgresql-contrib postgis libproj-dev libfreexl-dev libgdal-dev gdal-bin python3.6 python3.6-dev \
+    && apt-get -y install redis-server \
+    && apt-get -y upgrade \
     && curl -o /tmp/get-pip.py "https://bootstrap.pypa.io/get-pip.py" \
-    && python3.6 /tmp/get-pip.py \
+    && pip install invoke pathlib tox coverage pylint -U \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && apt-get remove -y curl \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
-    apt-get install -y git unzip nano wget sudo curl build-essential \
-    python python-dev python-pip python-virtualenv \
-    python3 python3-dev python3-pip python3-venv \
-    spatialite-bin libsqlite3-mod-spatialite \
-    postgresql-client-common libpq-dev \
-    postgresql postgresql-contrib postgis \
-    libproj-dev libfreexl-dev libgdal-dev gdal-bin && \
-    python -m pip install pip -U && \
-    python3 -m pip install pip -U && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    pip install invoke pathlib tox coverage pylint -U && \
-    pip3 install invoke tox coverage pylint -U
+    && service redis-server start
+
 
 ENV PYTHONIOENCODING=utf-8
 
