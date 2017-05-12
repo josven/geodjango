@@ -10,8 +10,9 @@ RUN apt-get update \
     && add-apt-repository ppa:git-core/ppa \
     && add-apt-repository ppa:jonathonf/python-3.6 \
     && add-apt-repository ppa:git-core/ppa \
-    && apt-get redis-server software-properties-common curl git unzip nano wget sudo build-essential python python-dev python-pip python-virtualenv spatialite-bin libsqlite3-mod-spatialite postgresql-client-common libpq-dev postgresql postgresql-contrib postgis libproj-dev libfreexl-dev libgdal-dev gdal-bin python3.6 python3.6-dev \
-    && apt-get -y install redis-server \
+    && apt-get install -y redis-server software-properties-common curl git unzip nano wget sudo build-essential spatialite-bin libsqlite3-mod-spatialite postgresql-client-common libpq-dev postgresql postgresql-contrib postgis libproj-dev libfreexl-dev libgdal-dev gdal-bin \
+    && apt-get update \
+    && apt-get install -y python python-dev python-pip python-virtualenv   python3.6 python3.6-dev \
     && apt-get -y upgrade \
     && curl -o /tmp/get-pip.py "https://bootstrap.pypa.io/get-pip.py" \
     && pip install invoke pathlib tox coverage pylint -U \
@@ -20,7 +21,6 @@ RUN apt-get update \
     && apt-get remove -y curl \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
-
 
 
 ENV PYTHONIOENCODING=utf-8
